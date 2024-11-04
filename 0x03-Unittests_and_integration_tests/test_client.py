@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import unittest
 from unittest.mock import patch
 from client import GithubOrgClient
