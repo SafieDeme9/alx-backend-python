@@ -5,7 +5,7 @@ Parameterize a unit test
 import unittest
 from unittest.mock import Mock, patch
 from parameterized import parameterized
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -51,3 +51,26 @@ class TestGetJson(unittest.TestCase):
         with patch("requests.get") as MockClass:
             MockClass.return_value = Mocked()
             self.assertEqual(get_json(url), payload)
+
+
+class TestMemoize(unittest.TestCase):
+    """Test memoize"""
+
+    def test_memoize(self):
+        """test memoize"""
+
+        class TestClass:
+            """test class"""
+
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        with patch.object(TestClass, 'a_method') as mock_method:
+            spec = TestClass()
+            spec.a_property
+            spec.a_property
+            mock_method.asset_called_once()
